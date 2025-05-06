@@ -32,6 +32,7 @@
       - name: rhythmbox
         state: absent
       - name: vgrabbj
+      - name: uvccapture
       - name: stopmotion
       - name: zorin-connect
       - name: gnome-shell-extension-zorin-connect
@@ -42,6 +43,15 @@
         state: absent
       - name: ffmpeg
       - name: podman
+      - name: libwebkit2gtk-4.1-dev
+      - name: build-essential
+      - name: curl
+      - name: wget
+      - name: file
+      - name: libxdo-dev
+      - name: libssl-dev
+      - name: libayatana-appindicator3-dev
+      - name: librsvg2-dev
       # postgresql https://www.postgresql.org/download/linux/ubuntu/
     apt_repositories:
      - sources_entry: ppa:giuspen/ppa
@@ -101,7 +111,7 @@
     - name: bluetooth
     - name: dotfiles
     - name: oh-my-zsh
-    # Setting Theme - complex set up using 'gsetting' command but is a simple gui change.
+    # TODO: Setting Theme - complex set up using 'gsetting' command but is a simple gui change.
   # Software Install
     - name: flatpak
 #    - name: snap
@@ -115,7 +125,5 @@
     - name: vscode
     - name: doctl
     - name: godot-conf
-    # Gnome extensions https://linuxconfig.org/how-to-install-gnome-shell-extensions-from-zip-file-using-command-line-on-ubuntu-18-04-bionic-beaver-linux
-
-# TODO
-# i3 installation and configuration
+    - name: rust
+    # TODO: Gnome extensions https://linuxconfig.org/how-to-install-gnome-shell-extensions-from-zip-file-using-command-line-on-ubuntu-18-04-bionic-beaver-linux
