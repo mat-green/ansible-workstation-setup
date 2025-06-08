@@ -42,7 +42,7 @@
       - name: motion
         state: absent
       - name: ffmpeg
-      - name: podman
+      # - name: podman
       - name: libwebkit2gtk-4.1-dev
       - name: build-essential
       - name: curl
@@ -124,6 +124,11 @@
     - name: cimon-io.asdf
     - name: vscode
     - name: doctl
-    - name: godot-conf
+    - name: docker
+      vars:
+        os_user: "{{ lookup('ansible.builtin.env', 'USER') }}"
+    - name: minikube
+    # - name: godot-conf
+    - name: golang
     - name: rust
     # TODO: Gnome extensions https://linuxconfig.org/how-to-install-gnome-shell-extensions-from-zip-file-using-command-line-on-ubuntu-18-04-bionic-beaver-linux
