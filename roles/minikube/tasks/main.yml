@@ -1,0 +1,20 @@
+---
+- name: Gather the package facts
+  ansible.builtin.package_facts:
+    manager: auto
+
+- block:
+  - name: create temporary directory for download
+    ansible.builtin.tempfile:
+      state: directory
+      suffix: .minicube
+    register: minikube_tmp
+  - name: download minikube package
+    ansible.builtin.get_url:
+      url: https://storage.googleapis.com/minikube/releases/latest/minikube_latest_amd64.deb
+      dest: "{{ minikube_tmp.path }}/minikube_latest_amd64.deb"
+  - name: install package
+    become: true
+    ansible.builtin.apt:
+      deb: "{{ minikube_tmp.path }}/minikube_latest_amd64.deb"
+  when: "'minikube' not in ansible_facts.packages"
