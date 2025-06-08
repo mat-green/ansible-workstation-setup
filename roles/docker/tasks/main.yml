@@ -1,0 +1,76 @@
+---
+- name: remove unofficial conflicting packages
+  become: true
+  ansible.builtin.package:
+    name:
+      - docker.io
+      - docker-doc
+      - docker-compose
+      - docker-compose-v2
+      - podman-docker
+      - containerd
+      - runc
+    state: absent
+
+- name: install certificates
+  become: true
+  ansible.builtin.package:
+    name: ca-certificates
+    state: latest
+
+- name: setup apt keyrings
+  become: true
+  ansible.builtin.shell: install -m 0755 -d /etc/apt/keyrings
+  args:
+    creates: /etc/apt/keyrings
+
+- name: get docker apt key
+  become: true
+  ansible.builtin.get_url:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    dest: /etc/apt/keyrings/docker.asc
+
+- name: docker apt source
+  become: true
+  ansible.builtin.apt_repository: # may need to map architecture to correct type
+    repo: "deb [arch={{ 'arm64' if ansible_architecture == 'aarch64' else 'amd64' }} signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable"
+    filename: docker
+    state: present
+
+- name: update apt cache
+  become: true
+  ansible.builtin.apt:
+    update_cache: yes
+
+- name: install docker engine packages
+  become: true
+  ansible.builtin.package:
+    name:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+      - docker-buildx-plugin
+      - docker-compose-plugin
+    state: present
+
+- name: Ensure group "docker" exists
+  become: true
+  ansible.builtin.group:
+    name: docker
+    state: present
+
+- name: add 'OS' user to 'docker' group
+  become: true
+  user:
+    name: "{{ os_user | default(lookup('ansible.builtin.env', 'USER')) }}"
+    groups: docker
+    append: yes
+
+- name: sets default ACL for docker group on /var/run/docker.sock
+  become: true
+  ansible.posix.acl:
+    path: /var/run/docker.sock
+    entity: docker
+    etype: group
+    permissions: rw
+    state: present
