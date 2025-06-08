@@ -1,0 +1,23 @@
+---
+- name: check installed
+  ansible.builtin.stat:
+    path: /usr/local/go
+  register: golang_install_check
+
+- block:
+  - name: create temporary directory for download
+    ansible.builtin.tempfile:
+      state: directory
+      suffix: .golang
+    register: golang_tmp
+  - name: download golang package
+    ansible.builtin.get_url:
+      url: https://go.dev/dl/go1.24.4.linux-amd64.tar.gz
+      dest: "{{ golang_tmp.path }}/go1.24.4.linux-amd64.tar.gz"
+  - name: unarchive golang file
+    become: true
+    ansible.builtin.unarchive:
+      src: "{{ golang_tmp.path }}/go1.24.4.linux-amd64.tar.gz"
+      dest: /usr/local/lib/
+      remote_src: yes
+  when: golang_install_check.stat.exists|bool is false
