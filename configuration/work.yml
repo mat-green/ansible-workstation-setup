@@ -1,0 +1,69 @@
+---
+allowed_executables: []
+asdf_plugins:
+  - nodejs
+  - python
+  # - ruby
+  - terraform
+# asdf_yarn_packages:
+#   - react-native-cli
+#   - create-react-app
+#   - apollo
+#   - generator-generator
+#   - yo
+dotfiles_repo: "https://github.com/mat-green/dotfiles.git"
+dotfiles_repo_version: osx-sequoia
+dotfiles_files:
+  - .zshrc.personal.before
+  - .zshrc.personal.after
+homebrew_cask_apps: # Search https://formulae.brew.sh/ for apps
+  # - adobe-acrobat-reader # password
+  #- canon-captureontouch-utility # password
+  #- virtualbox # Password
+  # - android-file-transfer
+  # - balenaetcher
+  # - drawio
+  # - docker
+  # - dropbox
+  # - firefox
+  # - flux
+  - gimp
+  # - grammarly
+  - iterm2
+  # - lens
+  - obsidian
+  # - pgadmin4
+  - spotify
+  - visual-studio-code
+homebrew_installed_packages:  # Search https://formulae.brew.sh/ for packages
+  - asdf
+  - gnu-tar
+  - gawk
+  - git
+  - git-lfs
+  - gpg
+  - htop
+  - jq
+  - mas
+  #- packer
+  - postgresql
+  - pnpm
+  - syncthing
+  - terraform-ls
+  - unzip
+  - zsh
+# homebrew_uninstalled_packages: []
+# homebrew_taps:
+#   - homebrew/cask-drivers
+#   - homebrew/cask-versions
+mas_signin_dialog: true
+mas_installed_apps: []
+  # - { id: 402592703, name: "Time Out (2.6.2)" }
+mas_uninstalled_apps: []
+  # - { id: 408981434, name: "iMovie" }
+  # - { id: 409183694, name: "Keynote" }
+  # - { id: 409201541, name: "Pages" }
+  # - { id: 409203825, name: "Numbers" }
+  # - { id: 682658836, name: "GarageBand" }
+vscode_extensions:
+  - Shan.code-settings-sync

@@ -1,78 +1,80 @@
 ---
-# http://asdf-vm.com/
-
-# - name: Clone asdf
-#   git:
-#     repo: https://github.com/asdf-vm/asdf.git
-#     dest: "{{ lookup('env', 'HOME') }}/.asdf"
-#     version: v0.8.1
-
-- name: "Create a default asdf configuration"
-  template:
-    src: templates/.asdfrc.j2
-    dest: "{{ lookup('env', 'HOME') }}/.asdfrc"
-    owner: "{{ lookup('env', 'USER') }}"
-    force: yes
+- name: Ensure asdf is installed
+  ansible.builtin.shell: |
+    which asdf
+  register: asdf_check
+  ignore_errors: true
 
 - name: "Install asdf plugins"
   shell: |
-    source {{ lookup('env', 'HOME') }}/.asdf/asdf.sh
-    asdf plugin-add {{ item }} || exit 0
+    # source {{ lookup('env', 'HOME') }}/.asdf/asdf.sh
+    asdf plugin add {{ item }} || exit 0
   with_items: "{{asdf_plugins}}"
+  when: asdf_check.rc == 0
 
 - name: "Install default erlang"
   shell: |
-    source {{ lookup('env', 'HOME') }}/.asdf/asdf.sh
+    # source {{ lookup('env', 'HOME') }}/.asdf/asdf.sh
     asdf install erlang {{ asdf_version_for_erlang }}
     # asdf global  erlang {{ asdf_version_for_erlang }}
-  when: ("erlang" in asdf_plugins and asdf_version_for_erlang)
+  when: ("erlang" in asdf_plugins and asdf_version_for_erlang) and asdf_check.rc == 0
 
 - name: "Install default elixir"
   shell: |
-    source {{ lookup('env', 'HOME') }}/.asdf/asdf.sh
+    # source {{ lookup('env', 'HOME') }}/.asdf/asdf.sh
     asdf install elixir {{ asdf_version_for_elixir }}
     # asdf global elixir {{ asdf_version_for_elixir }}
     mix local.hex --force
-  when: ("elixir" in asdf_plugins and asdf_version_for_elixir)
+  when: ("elixir" in asdf_plugins and asdf_version_for_elixir) and asdf_check.rc == 0
 
 - name: "Install default nodejs"
   shell: |
-    source {{ lookup('env', 'HOME') }}/.asdf/asdf.sh
+    # source {{ lookup('env', 'HOME') }}/.asdf/asdf.sh
     asdf install nodejs {{ asdf_version_for_nodejs }}
     # asdf global nodejs {{ asdf_version_for_nodejs }}
     # eslint
-  when: ("nodejs" in asdf_plugins and asdf_version_for_nodejs)
+  when: ("nodejs" in asdf_plugins and asdf_version_for_nodejs) and asdf_check.rc == 0
+  register: nodejs_installed
 
 - name: "Install default python"
   shell: |
-    source {{ lookup('env', 'HOME') }}/.asdf/asdf.sh
+    # source {{ lookup('env', 'HOME') }}/.asdf/asdf.sh
     asdf install python {{ asdf_version_for_python }}
     # asdf global python {{ asdf_version_for_python }}
     asdf reshim python
-  when: ("python" in asdf_plugins and asdf_version_for_python)
+  when: ("python" in asdf_plugins and asdf_version_for_python) and asdf_check.rc == 0
 
 - name: "Install default ruby"
   shell: |
-    source {{ lookup('env', 'HOME') }}/.asdf/asdf.sh
+    # source {{ lookup('env', 'HOME') }}/.asdf/asdf.sh
     asdf install ruby {{ asdf_version_for_ruby }}
     # asdf global ruby {{ asdf_version_for_ruby }}
     # gem install bundler
     # gem install cocoapods
     # gem install rubocop
     # gem install solargraph
-  when: ("ruby" in asdf_plugins and asdf_version_for_ruby)
+  when: ("ruby" in asdf_plugins and asdf_version_for_ruby) and asdf_check.rc == 0
 
 - name: "Install terraform"
   shell: |
-    source {{ lookup('env', 'HOME') }}/.asdf/asdf.sh
+    # source {{ lookup('env', 'HOME') }}/.asdf/asdf.sh
     asdf install terraform {{ asdf_version_for_terraform }}
     # asdf global terraform {{ asdf_version_for_terraform }}
-  when: ("terraform" in asdf_plugins and asdf_version_for_terraform)
+  when: ("terraform" in asdf_plugins and asdf_version_for_terraform) and asdf_check.rc == 0
 
 - name: Install yarn packages
   shell: yarn global add {{ item }}
   with_items: "{{ asdf_yarn_packages }}"
-    
+  when: asdf_yarn_packages|length > 0 and nodejs_installed is defined and nodejs_installed.rc == 0
+
 - name: re-generate bins now we've installed some yarn packages
   shell: asdf reshim nodejs
   when: asdf_yarn_packages|length > 0
+
+- name: Add to ZSH config
+  ansible.builtin.lineinfile:
+    path: "{{ lookup('env', 'HOME') }}/.zshrc"
+    line: |
+      
+      # Load asdf
+      export PATH="${HOME}/.asdf/shims:$PATH"

@@ -4,7 +4,7 @@
   local_action: command which zsh
   register: zsh_path
 
-- name: Ensure homebrew zsh is in allowed shells
+- name: Ensure zsh is in allowed shells
   lineinfile:
     path: /etc/shells
     line: "{{ zsh_path.stdout }}"
