@@ -23,7 +23,6 @@ homebrew_cask_apps: # Search https://formulae.brew.sh/ for apps
   # - android-file-transfer
   # - balenaetcher
   # - drawio
-  # - docker
   # - dropbox
   # - firefox
   # - flux
@@ -37,6 +36,8 @@ homebrew_cask_apps: # Search https://formulae.brew.sh/ for apps
   - visual-studio-code
 homebrew_installed_packages:  # Search https://formulae.brew.sh/ for packages
   - asdf
+  - cocoapods
+  - docker
   - gnu-tar
   - gawk
   - git
@@ -57,7 +58,8 @@ homebrew_installed_packages:  # Search https://formulae.brew.sh/ for packages
 #   - homebrew/cask-drivers
 #   - homebrew/cask-versions
 mas_signin_dialog: true
-mas_installed_apps: []
+mas_installed_apps:
+  - { id: 497799835, name: "Xcode" }
   # - { id: 402592703, name: "Time Out (2.6.2)" }
 mas_uninstalled_apps: []
   # - { id: 408981434, name: "iMovie" }
@@ -65,5 +67,25 @@ mas_uninstalled_apps: []
   # - { id: 409201541, name: "Pages" }
   # - { id: 409203825, name: "Numbers" }
   # - { id: 682658836, name: "GarageBand" }
+macos_apps_install_list:
+  - u: 'https://github.com/rxhanson/Rectangle/releases/download/v0.90/Rectangle0.90.dmg'
+    f: 'Rectangle0.90.dmg'
+    n: 'Rectangle'
+  - u: 'https://cdn.azul.com/zulu/bin/zulu17.60.17-ca-jdk17.0.16-macosx_aarch64.dmg'
+    f: 'zulu17.60.17-ca-jdk17.0.16-macosx_aarch64.dmg'
+    n: 'zulu-17.jdk'
+    t: 'installer'
+    exec_name: 'Double-Click to Install Azul Zulu JDK 17.pkg'
+    to: '/Library/Java/JavaVirtualMachines'
+  - u: 'https://redirector.gvt1.com/edgedl/android/studio/install/2025.1.3.7/android-studio-2025.1.3.7-mac_arm.dmg'
+    f: 'android-studio-2025.1.3.7-mac_arm.dmg'
+    n: 'Android Studio'
+    to: '/Applications'
+install_archives: ~/Downloads
+pip_path: /usr/bin/pip3    # Homebrew's pip: /opt/local/bin/pip
+target_user_id: "{{ lookup('env', 'USER') }}"      # the name of the user we want the apps to belong to
+verbose: false
 vscode_extensions:
   - Shan.code-settings-sync
+
+

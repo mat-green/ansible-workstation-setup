@@ -1,6 +1,7 @@
 ---
 roles:
   - name: geerlingguy.dotfiles
+  - name: juju4.macos_apps_install
 collections:
   - name: community.general
   - name: geerlingguy.mac

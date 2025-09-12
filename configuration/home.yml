@@ -19,7 +19,7 @@
     dotfiles_files:
       - .zshrc.personal.before
       - .zshrc.personal.after
-    homebrew_cask_apps: # Search https://formulae.brew.sh/ for apps 
+    homebrew_cask_apps: # Search https://formulae.brew.sh/ for apps
       - adoptopenjdk8 # AKA java (required by ubiquiti-unifi-controller), password
       - adobe-acrobat-reader # password
       - bricklink-studio # password
