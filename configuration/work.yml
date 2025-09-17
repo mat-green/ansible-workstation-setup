@@ -5,7 +5,10 @@ asdf_plugins:
   - python
   # - ruby
   - terraform
-# asdf_yarn_packages:
+# javascript_packages:
+#   - license
+#   - gitignore
+#   - covgen
 #   - react-native-cli
 #   - create-react-app
 #   - apollo
@@ -37,7 +40,6 @@ homebrew_cask_apps: # Search https://formulae.brew.sh/ for apps
 homebrew_installed_packages:  # Search https://formulae.brew.sh/ for packages
   - asdf
   - cocoapods
-  - docker
   - gnu-tar
   - gawk
   - git
@@ -47,6 +49,7 @@ homebrew_installed_packages:  # Search https://formulae.brew.sh/ for packages
   - jq
   - mas
   #- packer
+  - podman # docker replacement
   - postgresql
   - pnpm
   - syncthing
@@ -87,5 +90,3 @@ target_user_id: "{{ lookup('env', 'USER') }}"      # the name of the user we wan
 verbose: false
 vscode_extensions:
   - Shan.code-settings-sync
-
-
