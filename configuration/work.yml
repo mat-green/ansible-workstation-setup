@@ -14,6 +14,48 @@ asdf_plugins:
 #   - apollo
 #   - generator-generator
 #   - yo
+dockitems_remove:
+  - Safari
+  - Messages
+  - Mail
+  - Maps
+  - Photos
+  - FaceTime
+  - Calendar
+  - Contacts
+  - Reminders
+  - Notes
+  - Freeform
+  - TV
+  - Music
+  - News
+  - Keynote
+  - Numbers
+  - Pages
+  - Podcasts
+  - Books
+dockitems_persist:
+  - name: iTerm
+    path: "/Applications/iTerm.app/"
+    pos: 2
+  - name: Obsidian
+    path: "/Applications/Obsidian.app/"
+    pos: 3
+  - name: Visual Studio Code
+    path: "/Applications/Visual Studio Code.app/"
+    pos: 4
+  - name: Slack
+    path: "/Applications/Slack.app/"
+    pos: 5
+  - name: Microsoft Teams
+    path: "/Applications/Microsoft Teams.localized/Microsoft Teams.app/"
+    pos: 6
+  - name: Microsoft Outlook
+    path: "/Applications/Microsoft Outlook.app/"
+    pos: 7
+  - name: Spotify
+    path: "/Applications/Spotify.app/"
+    pos: 8
 dotfiles_repo: "https://github.com/mat-green/dotfiles.git"
 dotfiles_repo_version: osx-sequoia
 dotfiles_files:
@@ -88,5 +130,4 @@ install_archives: ~/Downloads
 pip_path: /usr/bin/pip3    # Homebrew's pip: /opt/local/bin/pip
 target_user_id: "{{ lookup('env', 'USER') }}"      # the name of the user we want the apps to belong to
 verbose: false
-vscode_extensions:
-  - Shan.code-settings-sync
+vscode_extensions: []

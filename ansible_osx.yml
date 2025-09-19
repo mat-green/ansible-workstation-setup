@@ -2,12 +2,13 @@
 - hosts: localhost
 # Need to stop the mac from sleeping, see http://www.rawinfopages.com/mac/how-to-customise-power-settings-terminal-mac, during the install.
   roles:
-    - geerlingguy.mac.mas
-    - juju4.macos_apps_install
     - geerlingguy.mac.homebrew
     - homebrew
+    - geerlingguy.mac.mas
+    - juju4.macos_apps_install
     - oh-my-zsh
     - geerlingguy.dotfiles
     - asdf
     - vscode
+    - geerlingguy.mac.dock
     - patches

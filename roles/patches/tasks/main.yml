@@ -19,5 +19,27 @@
   ansible.builtin.command: xattr -d -r com.apple.quarantine {{ item }}
   with_items: "{{ allowed_executables }}"
 
-
+- name: Apply domain defaults
+  community.general.osx_defaults:
+    domain: "{{ item.domain }}"
+    key: "{{ item.key }}"
+    value: "{{ item.value }}"
+    type: "{{ item.type | default(omit) }}"
+    state: present
+  with_items:
+    - domain: "com.apple.dock"
+      key: "autohide"
+      value: true
+      type: bool
+    - domain: "com.apple.dock"
+      key: "largesize"
+      value: 128.0
+      type: float
+    - domain: "com.apple.dock"
+      key: "magnification"
+      value: true
+      type: bool
+    - domain: "com.apple.dock"
+      key: "mineffect"
+      value: "genie"
 # [END]   Mac OSX Configuration -----------------------------------------------
