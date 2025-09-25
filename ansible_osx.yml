@@ -6,6 +6,7 @@
     - homebrew
     - geerlingguy.mac.mas
     - juju4.macos_apps_install
+    - gcloud
     - oh-my-zsh
     - geerlingguy.dotfiles
     - asdf

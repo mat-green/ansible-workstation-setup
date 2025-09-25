@@ -1,0 +1,51 @@
+---
+- name: check python version
+  ansible.builtin.command:
+    cmd: python3 --version
+  register: python_version
+
+- name: ensure python3 is at least 3.9
+  ansible.builtin.assert:
+    that:
+      - python_version.stdout|split(" ")|last is version('3.9', '>=')
+    fail_msg: "Python 3.9 or higher is required. Found {{ python_version.stdout }}"
+
+- name: check xcode cli tools are installed
+  ansible.builtin.command:
+    cmd: xcode-select -p
+  register: xcode_cli_tools
+  ignore_errors: true
+
+- name: ensure xcode cli tools are installed
+  ansible.builtin.assert:
+    that:
+      - xcode_cli_tools.rc == 0
+    fail_msg: "Xcode Command Line Tools are not installed. Please install them and re-run the playbook."
+
+- name: temporary download directory
+  ansible.builtin.tempfile:
+    state: directory
+    suffix: gcloud-tasks
+  register: temp_dir
+
+- name: Download Google Cloud SDK
+  ansible.builtin.get_url:
+    url: https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-darwin-x86_64.tar.gz
+    dest: "{{ temp_dir.path }}/google-cloud-sdk.tar.gz"
+    mode: '0644'
+
+- name: Extract Google Cloud SDK
+  become: true
+  ansible.builtin.unarchive:
+    src: "{{ temp_dir.path }}/google-cloud-sdk.tar.gz"
+    dest: "/opt"
+    remote_src: yes
+    creates: /opt/google-cloud-sdk/bin/gcloud
+    mode: '0755'
+
+- name: Install Google Cloud SDK
+  become: true
+  ansible.builtin.command:
+    cmd: "/opt/google-cloud-sdk/install.sh --quiet --command-completion false --path-update true --rc-path $HOME/.zshrc --usage-reporting false"
+  args:
+    creates: /opt/google-cloud-sdk/bin/gcloud
