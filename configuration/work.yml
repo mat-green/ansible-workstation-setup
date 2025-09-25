@@ -81,6 +81,7 @@ homebrew_cask_apps: # Search https://formulae.brew.sh/ for apps
   - visual-studio-code
 homebrew_installed_packages:  # Search https://formulae.brew.sh/ for packages
   - asdf
+  - autoenv
   - cocoapods
   - gnu-tar
   - gawk
@@ -125,6 +126,10 @@ macos_apps_install_list:
   - u: 'https://redirector.gvt1.com/edgedl/android/studio/install/2025.1.3.7/android-studio-2025.1.3.7-mac_arm.dmg'
     f: 'android-studio-2025.1.3.7-mac_arm.dmg'
     n: 'Android Studio'
+    to: '/Applications'
+  - u: 'https://www.figma.com/download/desktop/mac'
+    f: 'Figma.dmg'
+    n: 'Figma'
     to: '/Applications'
 install_archives: ~/Downloads
 pip_path: /usr/bin/pip3    # Homebrew's pip: /opt/local/bin/pip
